@@ -1,11 +1,17 @@
 import base64
+import os
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
 import uvicorn
 
-GEMINI_API_KEY="AQ.Ab8RN6IADYlZ7lwdSbwC8JJeXFSjVsgyBnDKrXpHn1gkqFFEhw"
+load_dotenv()
+
+if not os.getenv("GEMINI_API_KEY"):
+    raise ValueError("GEMINI_API_KEY отсутствует в переменных окружения (.env)")
+
 app = FastAPI()
 
 llm = ChatGoogleGenerativeAI(
